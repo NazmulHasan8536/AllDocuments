@@ -1,0 +1,173 @@
+
+
+
+Custome Event Making:
+
+
+Amra props diye Mother Component theke Child Component e data insert korte pri . jodi amader amn hoy amader child component theke mother component e data access korte hoy tokhon amra use korbo custome making Event .
+
+
+
+First Step :
+
+Child Component theke Parent Component e Request pathanor jonno amader method use korte hoy.
+
+
+emit('name',{property}) 
+
+2 ta paramiter Prothom ta name 2nd ta Property value
+
+    methods:{
+            unfriend(name){
+                this.$emit('delete',{name})
+            }
+        }
+        
+        
+    EKhane amra name name paramiter niyesi ja amra Value hisebe use koresi.
+
+
+Second Step
+Ekhon ami Parent class e child class name diye Access korbo.
+
+
+ekhon amra app.vue te ai data use korte hobe .as a Method.
+
+<allfriend :items="friends" @delete="deleteFriend"> </allfriend>
+
+Ekhane @delete holo ja amra child file a name hisebe emit er vitor diclared koresi. and deleteFriend holo ja isse amra oita i nite pari.
+
+Third Step:
+amra data method akon declared korte hobe .
+ 
+
+methods:{
+    deleteFriend(payload){
+      // console.log(payload);
+      this.friends = this.friends.filter(friends =>{
+        return friends.name !== payload.name
+      })
+    }
+  }
+  
+  
+ 1. deleteFriend(payload) , method toiri and jekono akta data naoa .
+ 2. this.friends = this.friends.filter(friends =>{
+        return friends.name !== payload.name ,
+    mane holo this.name => sokol namgulo delete hoye this.friends e asbe.
+    this.friends.filter => aita akta method filtering kore data accept korar jonno.
+    
+    *************************************************************************
+
+
+    App.vue:
+    
+    <template>
+<div id="app">
+  <h2>{{ title }}</h2>
+  <navbar></navbar>
+  <allfriend :items="friends" @delete="deleteFriend"> </allfriend>
+  <Onlinefriend :onlineFriends='friends'></Onlinefriend>
+
+
+</div>
+</template>
+
+<script>
+import navbar from './components/navbar'
+import Allfriend from './components/allFriends.vue'
+import Onlinefriend from './components/onlineFriends.vue'
+export default {
+  name: 'App',
+  data(){
+    return{
+      title:"Hurray Our vue function is ready :)",
+      friends:[
+               {name:"A",online:true},
+               {name:"B",online:true},
+               {name:"C",online:false},
+               {name:"D",online:true},
+               {name:"E",online:false}
+           ]
+    }
+    
+  },
+  components:{
+    navbar,
+    Allfriend,
+    Onlinefriend,
+    
+  },
+  methods:{
+    deleteFriend(payload){
+      // console.log(payload);
+      this.friends = this.friends.filter(friends =>{
+        return friends.name !== payload.name
+      })
+    }
+  }
+}
+</script>
+
+<style>
+h2 {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+
+allFriends.vue:
+
+<template >
+
+  <div id="allfriends">
+      <h2>All Friends</h2>
+      <div v-for="(item,index) in items" :key="index">
+          <h6 @click="unfriend(item.name)">{{item.name}}</h6>
+      </div>
+       
+  </div>
+    
+</template>
+
+<script>
+
+export default {
+    name:'Allfriends',
+    props:['items'],
+    data(){
+        return{
+           
+        }
+    },
+    methods:{
+        unfriend(name){
+            this.$emit('delete',{name})
+        }
+    }
+}
+</script>
+
+
+<style scoped>
+h2,h6 {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+</style>
+
+
+
+
+
+
+
