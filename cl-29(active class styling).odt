@@ -1,0 +1,16 @@
+
+
+How to Design Active class ?
+
+#nav a.router-link-exact-active {
+  color: red;
+}
+
+
+#nav a.router-link-exact-active name akta class ase oita change korte hobe .
+
+
+
+
+
+
